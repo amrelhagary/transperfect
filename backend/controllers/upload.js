@@ -1,21 +1,33 @@
 'use strict';
-const StringsModel = require('../models/strings');
+const StringsModel = require('../models/strings'), FileModel = require('../models/files');
 const readline = require('../libs/readline');
 const path = require('path');
 
 exports.uploadStringFile = async (req, res) => {
-    const filename= path.join(__dirname, `/../uploads/${req.file.filename}`);
-    console.log(filename, `upload string file ${req.file.filename}`)
+    const file = req.file;
+    console.log(`upload string file ${req.file.filename}`)
 
-    readlines(filename, (err, lines) => {
-        if (err) {
-            return res.sendStatus(500).send(err.toString());
-        }
-        res.send(`no of lines ${lines}`);
-    });
+    createFileModel(file)
+        .then(fileObj => {
+            handleLines(fileObj, (err, lines) => {
+                if (err) { return res.send(err); };
+                res.send(`no of line ${lines}`);
+            });
+        })
+
 };
 
-function readlines(filename, cb) {
+function createFileModel (file) {
+    const fileObj = new FileModel({
+        filename: file.filename,
+        originalname: file.originalname
+    });
+
+    return fileObj.save();
+}
+
+function handleLines (file, cb) {
+    const filename= path.join(__dirname, `/../uploads/${file.filename}`);
     const rl = readline(filename);
     let lines = 0
 
@@ -27,6 +39,7 @@ function readlines(filename, cb) {
             }
 
             let str  = new StringsModel({
+                file_id: file._id,
                 key: row[0],
                 value: row[1]
             });
