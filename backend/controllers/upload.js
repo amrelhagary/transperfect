@@ -33,8 +33,8 @@ function handleLines (file, cb) {
 
     rl.on('line', (line) => {
         try {
-            let row = line.split('=', 2).map(t => t.replace(/\s+|\"+|\;/g, '')).filter(s => s != "");
-            if (row.length == 0) {
+            let row = line.split('=', 2).map(t => t.replace(/\s+|\"+|\;/g, '')).filter(s => s !== "");
+            if (row.length === 0) {
                 return;
             }
 
@@ -52,12 +52,12 @@ function handleLines (file, cb) {
                 .catch((err) => {
                     console.log('Error writing obj to DB at line %s: %s', lines, err.toString())
                     cb(err, null);
-                });       
+                });
         } catch (e) {
             console.log('Error parsing file at line %s: %s', lines, e.toString())
             cb(e, null);
         };
-        
+
         lines++;
         console.log('Read %s lines.', lines)
     });
