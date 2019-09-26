@@ -1,23 +1,8 @@
-'use strict';
 const StringsModel = require('../models/strings'), FileModel = require('../models/files');
 const readline = require('../libs/readline');
 const path = require('path');
 
-exports.uploadStringFile = async (req, res) => {
-    const file = req.file;
-    console.log(`upload string file ${req.file.filename}`)
-
-    createFileModel(file)
-        .then(fileObj => {
-            handleLines(fileObj, (err, lines) => {
-                if (err) { return res.send(err); };
-                res.send(`no of line ${lines}`);
-            });
-        })
-
-};
-
-function createFileModel (file) {
+exports.createFileModel = (file) => {
     const fileObj = new FileModel({
         filename: file.filename,
         originalname: file.originalname
@@ -26,7 +11,7 @@ function createFileModel (file) {
     return fileObj.save();
 }
 
-function handleLines (file, cb) {
+exports.handleLines = (file, cb) => {
     const filename= path.join(__dirname, `/../uploads/${file.filename}`);
     const rl = readline(filename);
     let lines = 0
