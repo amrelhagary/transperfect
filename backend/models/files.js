@@ -16,3 +16,9 @@ exports.findAllFiles = () => {
         module.exports.FileModel.find({}).then(resolve).catch(reject);
     });
 }
+
+exports.get = (fileId) => {
+    return new Promise((resolve, reject) => {
+        module.exports.FileModel.findById(fileId).then(resolve).catch(reject);
+    });
+}

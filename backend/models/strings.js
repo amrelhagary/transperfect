@@ -13,7 +13,7 @@ const StringsModel = new Schema({
 // module.exports = db.model('string', StringsModel);
 exports.StringsModel = db.model('string', StringsModel);
 
-exports.downloadFile = (fileId) => {
+exports.getStringsByFileId = (fileId) => {
     return new Promise((resolve, reject) => {
         module.exports.StringsModel.find({ "file_id": mongoose.Types.ObjectId(fileId) }, { key: true, value: true }).then(data => {
             const dd = data.map(d => {
@@ -29,6 +29,18 @@ exports.downloadFile = (fileId) => {
     })
 }
 
-exports.downloadFileStream = (fileId) => {
+exports.getStringsByFileIdAsString = (fileId) => {
+    return new Promise((resolve, reject) => {
+        module.exports.StringsModel.find({ "file_id": mongoose.Types.ObjectId(fileId) }, { key: true, value: true }).then(data => {
+            const dd = data.map(d => {
+                return `"${d.key}"="${d.value}"`;
+            });
+
+            resolve(dd);
+        }).catch(reject);
+    })
+}
+
+exports.getFileStream = (fileId) => {
     return module.exports.StringsModel.find({ "file_id": mongoose.Types.ObjectId(fileId) }, { key: true, value: true }).cursor({transform: JSON.stringify});
 }
