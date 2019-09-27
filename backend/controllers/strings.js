@@ -57,7 +57,7 @@ exports.downloadStringFileTxt = async (req, res) => {
         fs.writeFileSync(filepath, strings.join('\n'), 'utf-8');
         const mimetype = mime.lookup(filepath);
 
-        res.setHeader('Content-disposition', 'attachment; filename=' + file.filename + '.txt');
+        res.setHeader('Content-disposition', 'attachment; filename=' + file.filename + '.strings');
         res.setHeader('Content-type', mimetype);
         const rstream = fs.createReadStream(filepath, 'utf-8');
         rstream.pipe(res);
