@@ -3,7 +3,7 @@
 const { createFileModel, handleLines } = require('../services/upload-service');
 const FileModel = require('../models/files');
 const StringsModel = require('../models/strings');
-const fs = require('fs'), path = require('path');
+const fs = require('fs');
 const mime = require('mime');
 
 exports.uploadStringFile = async (req, res) => {
@@ -27,11 +27,8 @@ exports.downloadStringFileJson = async (req, res) => {
         const file = await FileModel.get(fileId);
 
         //TODO: cleanup the /tmp
-        const filepath = path.basename('/tmp/' + file.filename);
-        const wstream = fs.createWriteStream(filepath);
-
-        wstream.write(JSON.stringify(strings));
-        wstream.end();
+        const filepath = '/tmp/' + file.filename;
+        fs.writeFileSync(filepath, JSON.stringify(strings), 'utf-8');
 
         const mimetype = mime.lookup(filepath);
 
