@@ -1,0 +1,22 @@
+<app-file-upload></app-file-upload>
+<br/>
+<div class="col-md-12 user-container">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="hidden">Id</th>
+      <th>Filename</th>
+      <th>Original Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let file of files; let i = index">
+      <td class="hidden">{{i+1}}</td>
+      <td>{{file.filename}}</td>
+      <td>{{file.originalname}}</td>
+      <td><button class="btn btn-success" (click)="downloadJson(file)"> Download JSON</button>
+        <button class="btn btn-success" (click)="downloadTxt(file)" style="margin-left: 20px;"> Download TXT</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

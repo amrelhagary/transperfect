@@ -1,0 +1,14 @@
+<h2 style="margin: auto"> Upload File Strings</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <input type="file" name="file" value="Upload" (change)="onFileChange($event)" />
+  <div *ngIf="
+    form.controls['file'].invalid &&
+    (form.controls['file'].dirty ||
+      form.controls['file'].touched)
+  " class="alert alert-danger">
+    <div *ngIf="form.controls['file'].errors.required">
+      File is required.
+    </div>
+  </div>
+  <button class="btn btn-danger" style="width:100px" type="submit">Upload</button>
+</form>
