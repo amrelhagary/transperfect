@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import {File} from '../model/file';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-file-listing',
@@ -21,10 +22,16 @@ export class FileListingComponent implements OnInit {
   }
 
   downloadJson(file: File) {
-
+    this.apiService.downloadJson(file).subscribe(res => {
+      const blob = new Blob([res], { type: 'application/json;charset=utf-8' })
+      saveAs(blob, file.originalname +'.json');
+    });
   }
 
   downloadTxt(file: File) {
-
+    this.apiService.downloadTxt(file).subscribe(res => {
+      const blob = new Blob([res], { type: 'text/plain;charset=utf-8' })
+      saveAs(blob, file.originalname +'.txt');
+    });
   }
 }
