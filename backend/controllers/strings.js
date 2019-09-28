@@ -14,7 +14,7 @@ exports.uploadStringFile = async (req, res) => {
         .then(fileObj => {
             handleLines(fileObj, (err, lines) => {
                 if (err) { return res.send(err); };
-                res.send(`no of line ${lines}`);
+                res.json(`no of line ${lines}`);
             });
         })
 

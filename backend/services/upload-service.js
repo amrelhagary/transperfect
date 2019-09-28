@@ -1,4 +1,4 @@
-const StringsModel = require('../models/strings'), FileModel = require('../models/files');
+const StringsModel = require('../models/strings').StringsModel, FileModel = require('../models/files').FileModel;
 const readline = require('../libs/readline');
 const path = require('path');
 
